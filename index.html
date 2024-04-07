@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veri Gönderme Formu</title>
+</head>
+<body>
+
+<form id="veriFormu">
+    <label for="userData">Kullanıcı Verisi:</label>
+    <input type="text" id="userData" name="userData" required>
+    <input type="submit" value="Gönder">
+</form>
+
+<script>
+    document.getElementById('veriFormu').addEventListener('submit', function(e) {
+        e.preventDefault(); // Formun normal gönderimini engelle
+
+        const userData = document.getElementById('userData').value;
+        fetch('https://deneme102-9b061acedaf9.herokuapp.com/submit-data', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `userData=${encodeURIComponent(userData)}`
+        })
+        .then(response => response.text())
+        .then(data => {
+            console.log(data); // Sunucu yanıtını konsolda göster
+            alert('Veri başarıyla gönderildi!'); // Kullanıcıya bilgi ver
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            alert('Veri gönderilirken bir hata oluştu.');
+        });
+    });
+</script>
+
+</body>
+</html>
